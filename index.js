@@ -98,7 +98,7 @@ keys.addEventListener('click', event => {
 
 const calculator = {
   displayValue: '0',
-  firstOperand: null,
+  activeOperand: null,
   operator: null,
   waitingForSecondOperand: false
 }
@@ -129,7 +129,7 @@ function inputDecimal(dot) {
 }
 
 function handleOperator(nextOperator) { 
-  const { firstOperand, displayValue, operator } = calculator;
+  const { activeOperand, displayValue, operator } = calculator;
   const inputValue = parseFloat(displayValue);
 
   if (operator && calculator.waitingForSecondOperand) { 
@@ -138,13 +138,13 @@ function handleOperator(nextOperator) {
     return;
   }
 
-  if (firstOperand === null && !isNaN(inputValue)) {
-    calculator.firstOperand = inputValue;
+  if (activeOperand === null && !isNaN(inputValue)) {
+    calculator.activeOperand = inputValue;
   } else if (operator) { 
-    const result = calculate(firstOperand, inputValue, operator);
+    const result = calculate(activeOperand, inputValue, operator);
 
     calculator.displayValue = parseFloat(result.toFixed(5));
-    calculator.firstOperand = inputValue;
+    calculator.activeOperand = inputValue;
   }
   calculator.waitingForSecondOperand = true;
   calculator.operator = nextOperator;
@@ -167,7 +167,7 @@ function calculate(firstOperand, secondOperand, operator) {
 
 function resetCalculator() { 
   calculator.displayValue = '0';
-  calculator.firstOperand = null;
+  calculator.activeOperand = null;
   calculator.operator = null;
   calculator.waitingForSecondOperand = false;
   console.log(calculator);

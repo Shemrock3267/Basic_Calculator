@@ -65,7 +65,7 @@
 
 const historyLog = [];
 
-function addToLog(firstOperand, operator, secondOperand, result) {
+const addToLog = (firstOperand, operator, secondOperand, result)=> {
   switch (operator) {
     case 'add':
       operator = '+';
@@ -84,7 +84,7 @@ function addToLog(firstOperand, operator, secondOperand, result) {
 }
 
 const calculate = (firstOperand, operator, secondOperand) => {
-  let result = ''
+  let result = '';
   if (operator === 'add') {
     result = parseFloat(firstOperand) + parseFloat(secondOperand);
   } else if (operator === 'subtract') {
@@ -100,19 +100,17 @@ const calculate = (firstOperand, operator, secondOperand) => {
     result = num;
   }
 
-  return result
+  return result;
 }
 
-function updateLog(arr) {
+const updateLog = (arr) =>{
   const logItem = document.createElement('li');
   logItem.classList = 'history-log__item';
   logItem.innerText = arr.map(item => item);
   document.querySelector('.history-log').appendChild(logItem);
 }
 
-function clearArray(arr) {
-  arr.length = 0;
-}
+const clearArray = arr => arr.length = 0;
 
 const calculator = document.querySelector('.calculator')
 const display = calculator.querySelector('.calculator__display')
@@ -120,14 +118,14 @@ const keys = calculator.querySelector('.calculator__keys')
 
 keys.addEventListener('click', e => {
   if (e.target.matches('button')) {
-    const key = e.target
-    const action = key.dataset.action
-    const keyContent = key.innerText
-    const displayedNum = display.innerText
-    const previousKeyType = calculator.dataset.previousKeyType
+    const key = e.target;
+    const action = key.dataset.action;
+    const keyContent = key.innerText;
+    const displayedNum = display.innerText;
+    const previousKeyType = calculator.dataset.previousKeyType;
 
     Array.from(key.parentNode.children)
-      .forEach(k => k.classList.remove('is-depressed'))
+      .forEach(k => k.classList.remove('is-depressed'));
 
     if (!action) {
       if (
@@ -135,24 +133,24 @@ keys.addEventListener('click', e => {
         previousKeyType === 'operator' ||
         previousKeyType === 'calculate'
       ) {
-        display.innerText = keyContent
+        display.innerText = keyContent;
       } else {
-        display.innerText = displayedNum + keyContent
+        display.innerText = displayedNum + keyContent;
       }
-      calculator.dataset.previousKeyType = 'number'
+      calculator.dataset.previousKeyType = 'number';
     }
 
     if (action === 'decimal') {
       if (!displayedNum.includes('.')) {
-        display.innerText = displayedNum + '.'
+        display.innerText = displayedNum + '.';
       } else if (
         previousKeyType === 'operator' ||
         previousKeyType === 'calculate'
       ) {
-        display.innerText = '0.'
+        display.innerText = '0.';
       }
 
-      calculator.dataset.previousKeyType = 'decimal'
+      calculator.dataset.previousKeyType = 'decimal';
     }
 
     if (
@@ -161,9 +159,9 @@ keys.addEventListener('click', e => {
       action === 'multiply' ||
       action === 'divide'
     ) {
-      const firstValue = calculator.dataset.firstValue
-      const operator = calculator.dataset.operator
-      const secondValue = displayedNum
+      const firstValue = calculator.dataset.firstValue;
+      const operator = calculator.dataset.operator;
+      const secondValue = displayedNum;
 
       if (
         firstValue &&
@@ -171,53 +169,53 @@ keys.addEventListener('click', e => {
         previousKeyType !== 'operator' &&
         previousKeyType !== 'calculate'
       ) {
-        const calcValue = calculate(firstValue, operator, secondValue)
-        display.innerText = calcValue
-        calculator.dataset.firstValue = calcValue
+        const calcValue = calculate(firstValue, operator, secondValue);
+        display.innerText = calcValue;
+        calculator.dataset.firstValue = calcValue;
       } else {
-        calculator.dataset.firstValue = displayedNum
+        calculator.dataset.firstValue = displayedNum;
       }
 
-      key.classList.add('is-depressed')
-      calculator.dataset.previousKeyType = 'operator'
-      calculator.dataset.operator = action
+      key.classList.add('is-depressed');
+      calculator.dataset.previousKeyType = 'operator';
+      calculator.dataset.operator = action;
     }
 
     if (action === 'clear') {
       if (key.innerText === 'AC') {
-        calculator.dataset.firstValue = ''
-        calculator.dataset.modValue = ''
-        calculator.dataset.operator = ''
-        calculator.dataset.previousKeyType = ''
+        calculator.dataset.firstValue = '';
+        calculator.dataset.modValue = '';
+        calculator.dataset.operator = '';
+        calculator.dataset.previousKeyType = '';
       } else {
-        key.innerText = 'AC'
+        key.innerText = 'AC';
       }
 
       display.innerText = 0
-      calculator.dataset.previousKeyType = 'clear'
+      calculator.dataset.previousKeyType = 'clear';
     }
 
     if (action !== 'clear') {
       const clearButton = calculator.querySelector('[data-action=clear]')
-      clearButton.innerText = 'CE'
+      clearButton.innerText = 'CE';
     }
 
     if (action === 'calculate') {
-      let firstValue = calculator.dataset.firstValue
-      const operator = calculator.dataset.operator
-      let secondValue = displayedNum
+      let firstValue = calculator.dataset.firstValue;
+      const operator = calculator.dataset.operator;
+      let secondValue = displayedNum;
 
       if (firstValue) {
         if (previousKeyType === 'calculate') {
-          firstValue = displayedNum
-          secondValue = calculator.dataset.modValue
+          firstValue = displayedNum;
+          secondValue = calculator.dataset.modValue;
         }
 
-        display.innerText = calculate(firstValue, operator, secondValue)
+        display.innerText = calculate(firstValue, operator, secondValue);
       }
 
-      calculator.dataset.modValue = secondValue
-      calculator.dataset.previousKeyType = 'calculate'
+      calculator.dataset.modValue = secondValue;
+      calculator.dataset.previousKeyType = 'calculate';
       const result = document.querySelector('.calculator__display').innerHTML;
       addToLog(firstValue, operator, secondValue, result);
       updateLog(historyLog);

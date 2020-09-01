@@ -2,32 +2,14 @@
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-body {
   margin: 0;
+  padding: 0;
 }
 
-a {
-  text-decoration: none;
-}
-
-a:focus {
-  outline: transparent;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1 {
   display: block;
 }
 
-/* Removes all decimals and discs from lists */
-
-ol,
 ul {
   list-style: none;
 }
@@ -70,16 +52,10 @@ body {
   display: flex;
 }
 
-.container > p {
-  text-align: center;
-}
-
 .calculator {
   border-radius: 12px;
   box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.15);
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 2em;
+  margin: 2em auto 0;
   max-width: 15em;
   overflow: hidden;
 }
